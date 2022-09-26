@@ -1,0 +1,17 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: labmicro-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.10.10.5/32
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: labmicro-advertise
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - labmicro-pool
