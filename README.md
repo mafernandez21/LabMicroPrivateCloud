@@ -34,6 +34,18 @@ ProxmoxVE tiene configuradas las siguentes Máquinas Virtuales (VM):
 | worker02  | 10.10.10.13 |
 | worker03  | 10.10.10.14 |
 
+En los nodos del cluster Proxmox se debe configurar como DNS el 192.168.60.254. A continuación se muestra un ejemplo de la configuración requerida por netplan
+
+```yaml
+network:
+  ethernets:
+    enp14s0:
+      dhcp4: true
+      nameservers:
+        addresess: [192.168.60.254]
+  version: 2
+```
+
 ### Configuración por defecto (/etc/network/interfaces)
 
 ```bash
@@ -66,8 +78,8 @@ iface lo inet loopback
 auto eno1
 #real IP address
 iface eno1 inet static
-    address  192.168.100.65/24
-    gateway  192.168.100.1
+    address  192.168.60.10/24
+    gateway  192.168.60.254
 
 auto eno2
 iface eno2 inet manual
@@ -87,7 +99,7 @@ iface vmbr0 inet static
 #backup IP address
 auto vmbr1
 iface vmbr1 inet static
-    address  10.0.16.188/24
+    address  192.168.60.11/24
     bridge-ports eno2
     bridge-stp off
     bridge-fd 0
